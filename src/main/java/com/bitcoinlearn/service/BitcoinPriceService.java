@@ -16,7 +16,7 @@ public class BitcoinPriceService {
     public void fetchPrice() {
         try {
             RestTemplate rt = new RestTemplate();
-            Map<String, Map<String, Map<String, Object>>> data = rt.getForObject(
+            Map<String, Map<String, Object>> data = rt.getForObject(
                 "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=brl%2Cusd&include_24hr_change=true",
                 Map.class
             );
