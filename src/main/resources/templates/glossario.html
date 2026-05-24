@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"><meta charset="UTF-8"><title>Glossario - BitcoinLearn</title></head>
+<body>
+    <nav th:replace="fragments/nav :: nav"></nav>
+    <h1>Glossario Bitcoin</h1>
+    <p class="subtitle">Termos essenciais do universo Bitcoin</p>
+
+    <div class="card">
+        <div class="filters inline-flex" style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a href="/glossario" class="btn btn-sm" th:classappend="${categoriaAtual == null} ? '' : 'btn-secondary'" th:style="${categoriaAtual == null} ? 'background:#f7931a;color:#0b1421' : ''">Todas</a>
+            <a th:each="cat : ${categorias}" th:href="@{'/glossario?categoria=' + ${cat}}" class="btn btn-sm btn-secondary" th:classappend="${categoriaAtual == cat} ? '' : ''" th:style="${categoriaAtual == cat} ? 'background:#f7931a;color:#0b1421' : ''" th:text="${cat}">Categoria</a>
+        </div>
+    </div>
+
+    <div th:each="termo : ${termos}" class="card glossary-term">
+        <div class="term" th:text="${termo.term}">Termo</div>
+        <div class="def" th:text="${termo.definition}">Definicao</div>
+        <span class="cat" th:text="${termo.category}">categoria</span>
+    </div>
+
+    <div th:if="${#lists.isEmpty(termos)}" class="card text-center" style="padding:2rem">
+        <p style="color:#8a9bb5">Nenhum termo encontrado.</p>
+    </div>
+</body>
+</html>

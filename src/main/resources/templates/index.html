@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/layout :: head"></head>
+<body>
+    <nav th:replace="fragments/nav :: nav"></nav>
+    <div class="container">
+        <div class="card text-center">
+            <h1>Aprenda sobre Bitcoin</h1>
+            <p class="subtitle">A moeda que esta mudando o mundo das financas</p>
+            <div th:replace="fragments/preco :: preco"></div>
+        </div>
+
+        <div class="grid-3">
+            <a href="/quiz" class="card" style="text-decoration:none;display:block;cursor:pointer">
+                <div class="stat-card">
+                    <div style="font-size:2.5rem;margin-bottom:.5rem">🧠</div>
+                    <div class="value" style="font-size:1.3rem">Quiz Interativo</div>
+                    <div class="label">Teste seus conhecimentos sobre Bitcoin em questoes de diferentes niveis</div>
+                </div>
+            </a>
+            <a href="/simulador" class="card" style="text-decoration:none;display:block;cursor:pointer">
+                <div class="stat-card">
+                    <div style="font-size:2.5rem;margin-bottom:.5rem">📈</div>
+                    <div class="value" style="font-size:1.3rem">Simulador</div>
+                    <div class="label">Simule investimentos em Bitcoin com dinheiro ficticio e dados reais</div>
+                </div>
+            </a>
+            <a href="/glossario" class="card" style="text-decoration:none;display:block;cursor:pointer">
+                <div class="stat-card">
+                    <div style="font-size:2.5rem;margin-bottom:.5rem">📖</div>
+                    <div class="value" style="font-size:1.3rem">Glossario</div>
+                    <div class="label">Mais de 20 termos essenciais do universo Bitcoin explicados</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>O que e Bitcoin?</h2>
+            <p style="line-height:1.7;color:#b0c0d4;margin-bottom:1rem">
+                Bitcoin e uma moeda digital descentralizada criada em 2009 por uma pessoa (ou grupo) usando o pseudonimo
+                Satoshi Nakamoto. Diferente das moedas tradicionais, o Bitcoin nao e emitido por nenhum governo ou banco
+                central. Ele opera em uma rede peer-to-peer onde as transacoes sao verificadas por nos da rede e registradas
+                em um ledger publico distribuido chamado blockchain.
+            </p>
+            <p style="line-height:1.7;color:#b0c0d4">
+                Com um suprimento limitado a 21 milhoes de unidades, o Bitcoin e frequentemente comparado ao ouro digital,
+                servindo como reserva de valor e meio de troca na era digital.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Por que aprender sobre Bitcoin?</h2>
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="value" style="font-size:1.2rem">🌍</div>
+                    <div class="label" style="margin-top:.5rem;font-weight:600;color:#e0e6ed">Descentralizado</div>
+                    <div class="label" style="margin-top:.3rem">Sem controle de governos ou bancos centrais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" style="font-size:1.2rem">🔒</div>
+                    <div class="label" style="margin-top:.5rem;font-weight:600;color:#e0e6ed">Seguro</div>
+                    <div class="label" style="margin-top:.3rem">Criptografia forte protege suas transacoes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" style="font-size:1.2rem">📦</div>
+                    <div class="label" style="margin-top:.5rem;font-weight:600;color:#e0e6ed">Suprimento Limitado</div>
+                    <div class="label" style="margin-top:.3rem">Apenas 21 milhoes de Bitcoins existirao</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

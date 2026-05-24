@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"><meta charset="UTF-8"><title>Simulador - BitcoinLearn</title></head>
+<body>
+    <nav th:replace="fragments/nav :: nav"></nav>
+    <a href="/simulador" style="color:#8a9bb5;text-decoration:none;display:inline-block;margin-bottom:1rem">&larr; Voltar</a>
+
+    <h1 th:text="${simulacao.nome}">Simulacao</h1>
+
+    <div class="card">
+        <div th:replace="fragments/preco :: preco"></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h2>Saldo</h2>
+            <div style="font-size:2rem;font-weight:700;color:#4ade80" th:text="${'R$ ' + #numbers.formatDecimal(simulacao.saldoBRL, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
+            <div style="color:#8a9bb5;font-size:.9rem">Disponivel em reais</div>
+            <div style="font-size:2rem;font-weight:700;color:#f7931a;margin-top:1rem" th:text="${#numbers.formatDecimal(simulacao.saldoBTC, 0, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</div>
+            <div style="color:#8a9bb5;font-size:.9rem">Em Bitcoin</div>
+        </div>
+        <div class="card">
+            <h2>Valor Total</h2>
+            <div style="font-size:2.5rem;font-weight:700;color:#f7931a" th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
+            <div style="color:#8a9bb5;font-size:.9rem">Saldo + Bitcoin a preco atual</div>
+            <div style="margin-top:.5rem;font-size:.9rem">
+                <span style="color:#8a9bb5">Lucro/Prejuizo: </span>
+                <span th:with="lucro=${valorTotal - simulacao.saldoInicial}"
+                      th:classappend="${lucro >= 0} ? 'price-up' : 'price-down'"
+                      th:text="${lucro >= 0} ? 'R$ +' + #numbers.formatDecimal(lucro, 0, 'COMMA', 2, 'POINT') : 'R$ ' + #numbers.formatDecimal(lucro, 0, 'COMMA', 2, 'POINT')">
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Negociar</h2>
+        <div class="grid-2">
+            <form th:action="@{'/simulador/' + ${simulacao.id} + '/comprar'}" method="post">
+                <label style="color:#8a9bb5;font-size:.85rem">Comprar BTC (valor em R$)</label>
+                <input type="number" name="valor" step="0.01" min="1" required>
+                <button type="submit" class="btn">Comprar</button>
+            </form>
+            <form th:action="@{'/simulador/' + ${simulacao.id} + '/vender'}" method="post">
+                <label style="color:#8a9bb5;font-size:.85rem">Vender BTC (quantidade)</label>
+                <input type="number" name="quantidade" step="0.000001" min="0.000001" required>
+                <button type="submit" class="btn btn-secondary">Vender</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Historico de Transacoes</h2>
+            <form th:action="@{'/simulador/' + ${simulacao.id} + '/deletar'}" method="post" onsubmit="return confirm('Tem certeza?')">
+                <button type="submit" class="btn btn-sm btn-danger">Deletar Simulacao</button>
+            </form>
+        </div>
+        <div th:if="${#lists.isEmpty(simulacao.transacoes)}" style="color:#8a9bb5;text-align:center;padding:1rem">
+            Nenhuma transacao realizada.
+        </div>
+        <div th:each="t : ${simulacao.transacoes}" class="transacao">
+            <div>
+                <span class="tipo" th:classappend="${t.tipo == 'COMPRA'} ? 'compra' : 'venda'" th:text="${t.tipo}">COMPRA</span>
+                <span style="color:#8a9bb5;margin-left:.5rem" th:text="${#numbers.formatDecimal(t.quantidadeBTC, 0, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</span>
+            </div>
+            <div style="text-align:right">
+                <div th:text="${'R$ ' + #numbers.formatDecimal(t.valorBRL, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
+                <small style="color:#8a9bb5" th:text="${'@ ' + #numbers.formatDecimal(t.precoBTC, 0, 'COMMA', 2, 'POINT')}">preco</small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

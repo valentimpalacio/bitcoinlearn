@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"><meta charset="UTF-8"><title>Calculadora - BitcoinLearn</title></head>
+<body>
+    <nav th:replace="fragments/nav :: nav"></nav>
+    <h1>Calculadora Bitcoin</h1>
+    <p class="subtitle">Converta valores entre Real, Dolar e Bitcoin</p>
+
+    <div class="card text-center" style="margin-bottom:2rem">
+        <div style="color:#8a9bb5;font-size:.9rem">Precos de referencia</div>
+        <div style="font-size:1.3rem;font-weight:600;color:#f7931a" th:text="${'1 BTC = $' + #numbers.formatDecimal(priceUSD, 0, 'COMMA', 2, 'POINT')}">1 BTC = $0</div>
+        <div style="font-size:1.1rem;color:#4ade80" th:text="${'1 BTC = R$ ' + #numbers.formatDecimal(priceBRL, 0, 'COMMA', 2, 'POINT')}">1 BTC = R$ 0</div>
+    </div>
+
+    <div class="grid-3">
+        <div class="card">
+            <h2>BTC para BRL</h2>
+            <input type="number" id="btc-to-brl-input" step="0.000001" min="0" placeholder="Quantidade de BTC" oninput="calcBtcToBrl()">
+            <div style="margin-top:1rem;font-size:1.5rem;font-weight:700;color:#4ade80" id="btc-to-brl-result">R$ 0,00</div>
+        </div>
+        <div class="card">
+            <h2>BRL para BTC</h2>
+            <input type="number" id="brl-to-btc-input" step="0.01" min="0" placeholder="Valor em R$" oninput="calcBrlToBtc()">
+            <div style="margin-top:1rem;font-size:1.5rem;font-weight:700;color:#f7931a" id="brl-to-btc-result">0 BTC</div>
+        </div>
+        <div class="card">
+            <h2>USD para BTC</h2>
+            <input type="number" id="usd-to-btc-input" step="0.01" min="0" placeholder="Valor em $" oninput="calcUsdToBtc()">
+            <div style="margin-top:1rem;font-size:1.5rem;font-weight:700;color:#f7931a" id="usd-to-btc-result">0 BTC</div>
+        </div>
+    </div>
+
+    <script>
+        const priceUSD = [[${priceUSD}]];
+        const priceBRL = [[${priceBRL}]];
+
+        function calcBtcToBrl() {
+            const val = parseFloat(document.getElementById('btc-to-brl-input').value) || 0;
+            document.getElementById('btc-to-brl-result').textContent = 'R$ ' + (val * priceBRL).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function calcBrlToBtc() {
+            const val = parseFloat(document.getElementById('brl-to-btc-input').value) || 0;
+            document.getElementById('brl-to-btc-result').textContent = (val / priceBRL).toFixed(8) + ' BTC';
+        }
+
+        function calcUsdToBtc() {
+            const val = parseFloat(document.getElementById('usd-to-btc-input').value) || 0;
+            document.getElementById('usd-to-btc-result').textContent = (val / priceUSD).toFixed(8) + ' BTC';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/layout :: head"></head>
+<body>
+    <nav th:replace="fragments/nav :: nav"></nav>
+    <div class="container">
+        <h1>Quiz sobre Bitcoin</h1>
+        <p class="subtitle" th:if="${#lists.isEmpty(questions)}">Selecione um filtro e clique em "Iniciar".</p>
+
+        <div class="card" th:if="${#lists.isEmpty(questions)}">
+            <form method="get" class="filters inline-flex" style="display:flex;gap:.5rem;flex-wrap:wrap">
+                <select name="difficulty" style="width:auto">
+                    <option value="">Todas as dificuldades</option>
+                    <option value="facil" th:selected="${selectedDifficulty == 'facil'}">Facil</option>
+                    <option value="medio" th:selected="${selectedDifficulty == 'medio'}">Medio</option>
+                    <option value="dificil" th:selected="${selectedDifficulty == 'dificil'}">Dificil</option>
+                </select>
+                <select name="category" style="width:auto">
+                    <option value="">Todas as categorias</option>
+                    <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}" th:selected="${selectedCategory == cat}"></option>
+                </select>
+                <button type="submit" class="btn">Iniciar Quiz</button>
+            </form>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(questions)}" id="quiz-container">
+            <div class="card">
+                <div class="question-counter" id="q-counter">Questao 1 de <span th:text="${#lists.size(questions)}">10</span></div>
+                <div class="timer" id="timer">⏱ 30s</div>
+            </div>
+
+            <div th:each="q, iter : ${questions}" class="card question-card" th:attr="data-index=${iter.index}" th:classappend="${iter.index > 0} ? 'hide'">
+                <h3 style="margin-bottom:1rem;line-height:1.5" th:text="${q.question}">Pergunta</h3>
+                <span class="badge" th:classappend="${q.difficulty}" th:text="${q.difficulty}">facil</span>
+                <span class="badge" style="margin-left:.5rem" th:text="${q.category}">categoria</span>
+                <div style="margin-top:1rem">
+                    <button class="option-btn" th:each="opt, oi : ${q.options}"
+                            th:data-correct="${oi.index == q.correctIndex}"
+                            th:data-explanation="${q.explanation}"
+                            th:data-next="${iter.index + 1 < #lists.size(questions)}"
+                            th:onclick="'selectOption(this)'"
+                            th:text="${opt}">opcao</button>
+                </div>
+            </div>
+
+            <div id="result" class="card result-card hide">
+                <div class="score" id="final-score">0</div>
+                <div class="label">respostas corretas de <span th:text="${#lists.size(questions)}">10</span></div>
+                <p id="result-msg" style="margin-top:1rem;color:#b0c0d4"></p>
+                <a href="/quiz" class="btn" style="margin-top:1.5rem">Novo Quiz</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        let correctCount = 0;
+        let timerInterval = null;
+        const TIMER_SECONDS = 30;
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            let timeLeft = TIMER_SECONDS;
+            document.getElementById('timer').textContent = '⏱ ' + timeLeft + 's';
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = '⏱ ' + timeLeft + 's';
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    const currentCard = document.querySelector('.question-card:not(.hide)');
+                    if (!currentCard) return;
+                    const buttons = currentCard.querySelectorAll('.option-btn');
+                    buttons.forEach(b => { b.disabled = true; b.classList.add('disabled'); });
+                    const correctBtn = currentCard.querySelector('.option-btn[data-correct="true"]');
+                    if (correctBtn) correctBtn.classList.add('correct');
+                    advanceQuiz(currentCard);
+                }
+            }, 1000);
+        }
+
+        function selectOption(btn) {
+            clearInterval(timerInterval);
+            const card = btn.closest('.question-card');
+            const buttons = card.querySelectorAll('.option-btn');
+            buttons.forEach(b => { b.disabled = true; b.classList.add('disabled'); });
+
+            const isCorrect = btn.getAttribute('data-correct') === 'true';
+            if (isCorrect) {
+                btn.classList.add('correct');
+                correctCount++;
+            } else {
+                btn.classList.add('wrong');
+                const correctBtn = card.querySelector('.option-btn[data-correct="true"]');
+                if (correctBtn) correctBtn.classList.add('correct');
+                const explanation = btn.getAttribute('data-explanation');
+                if (explanation) {
+                    const p = document.createElement('p');
+                    p.style.cssText = 'margin-top:.8rem;color:#8a9bb5;font-size:.9rem;padding:.5rem;background:#16233a;border-radius:6px';
+                    p.textContent = '💡 ' + explanation;
+                    card.appendChild(p);
+                }
+            }
+            advanceQuiz(card);
+        }
+
+        function advanceQuiz(card) {
+            setTimeout(() => {
+                const nextCard = card.nextElementSibling;
+                if (nextCard && nextCard.classList.contains('question-card')) {
+                    card.classList.add('hide');
+                    nextCard.classList.remove('hide');
+                    const allCards = document.querySelectorAll('.question-card');
+                    const idx = Array.from(allCards).indexOf(nextCard);
+                    document.getElementById('q-counter').textContent = 'Questao ' + (idx + 1) + ' de ' + allCards.length;
+                    startTimer();
+                } else {
+                    document.querySelectorAll('.question-card').forEach(c => c.classList.add('hide'));
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        function showResult() {
+            const total = document.querySelectorAll('.question-card').length;
+            document.getElementById('final-score').textContent = correctCount;
+            const pct = Math.round((correctCount / total) * 100);
+            let msg = '';
+            if (pct >= 90) msg = 'Excelente! Voce e um expert em Bitcoin!';
+            else if (pct >= 70) msg = 'Muito bom! Continue estudando!';
+            else if (pct >= 50) msg = 'Bom, mas pode melhorar! Continue aprendendo!';
+            else msg = 'Continue estudando os fundamentos do Bitcoin!';
+            document.getElementById('result-msg').textContent = msg;
+            document.getElementById('result').classList.remove('hide');
+            document.querySelector('.question-counter').classList.add('hide');
+            document.getElementById('timer').classList.add('hide');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.question-card');
+            if (cards.length > 0) startTimer();
+        });
+    </script>
+</body>
+</html>
