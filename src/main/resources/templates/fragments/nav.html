@@ -1,8 +1,8 @@
-<nav th:fragment="nav" th:with="uri=${#request.getRequestURI()}">
+<nav th:fragment="nav">
     <a href="/" class="logo">₿ BitcoinLearn</a>
-    <a href="/" th:classappend="${uri == '/'} ? 'active' : ''">Inicio</a>
-    <a href="/quiz" th:classappend="${#strings.startsWith(uri, '/quiz')} ? 'active' : ''">Quiz</a>
-    <a href="/simulador" th:classappend="${#strings.startsWith(uri, '/simulador')} ? 'active' : ''">Simulador</a>
-    <a href="/glossario" th:classappend="${#strings.startsWith(uri, '/glossario')} ? 'active' : ''">Glossario</a>
-    <a href="/calculadora" th:classappend="${#strings.startsWith(uri, '/calculadora')} ? 'active' : ''">Calculadora</a>
+    <a href="/">Inicio</a>
+    <a href="/quiz">Quiz</a>
+    <a href="/simulador">Simulador</a>
+    <a href="/glossario">Glossario</a>
+    <a href="/calculadora">Calculadora</a>
 </nav>
