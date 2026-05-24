@@ -21,8 +21,12 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (quizRepo.count() == 0) seedQuestions();
-        if (glossaryRepo.count() == 0) seedGlossary();
+        try {
+            if (quizRepo.count() == 0) seedQuestions();
+            if (glossaryRepo.count() == 0) seedGlossary();
+        } catch (Exception e) {
+            System.err.println("DataSeeder: " + e.getMessage());
+        }
     }
 
     private void seedQuestions() {
