@@ -1,7 +1,7 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "MAVEN_OPTS='-Xmx512m' mvn clean package -DskipTests"
+    "buildCommand": "MAVEN_OPTS='-Xmx512m' mvn clean package -DskipTests -Dmaven.compiler.source=17 -Dmaven.compiler.target=17"
   },
   "deploy": {
     "startCommand": "java -jar -Xmx256m target/bitcoinlearn-1.0.0.jar",
