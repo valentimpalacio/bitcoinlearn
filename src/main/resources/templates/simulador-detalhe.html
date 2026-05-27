@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/layout :: head"><meta charset="UTF-8"><title>Simulador - BitcoinLearn</title></head>
+<head th:replace="~{fragments/layout :: head}"><meta charset="UTF-8"><title>Simulador - BitcoinLearn</title></head>
 <body>
-    <nav th:replace="fragments/nav :: nav"></nav>
+    <nav th:replace="~{fragments/nav :: nav}"></nav>
     <a href="/simulador" style="color:#8a9bb5;text-decoration:none;display:inline-block;margin-bottom:1rem">&larr; Voltar</a>
 
     <h1 th:text="${simulacao.nome}">Simulacao</h1>
 
+    <div th:if="${erro}" class="card" style="border-color:#f87171;background:#1a1a2e;text-align:center;padding:.75rem">
+        <span style="color:#f87171" th:text="${erro}">Erro</span>
+    </div>
+
     <div class="card">
-        <div th:replace="fragments/preco :: preco"></div>
+        <div th:replace="~{fragments/preco :: preco}"></div>
     </div>
 
     <div class="grid-2">
@@ -16,7 +20,7 @@
             <h2>Saldo</h2>
             <div style="font-size:2rem;font-weight:700;color:#4ade80" th:text="${'R$ ' + #numbers.formatDecimal(simulacao.saldoBRL, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
             <div style="color:#8a9bb5;font-size:.9rem">Disponivel em reais</div>
-            <div style="font-size:2rem;font-weight:700;color:#f7931a;margin-top:1rem" th:text="${#numbers.formatDecimal(simulacao.saldoBTC, 0, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</div>
+            <div style="font-size:2rem;font-weight:700;color:#f7931a;margin-top:1rem" th:text="${#numbers.formatDecimal(simulacao.saldoBTC, 1, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</div>
             <div style="color:#8a9bb5;font-size:.9rem">Em Bitcoin</div>
         </div>
         <div class="card">
@@ -25,10 +29,10 @@
             <div style="color:#8a9bb5;font-size:.9rem">Saldo + Bitcoin a preco atual</div>
             <div style="margin-top:.5rem;font-size:.9rem">
                 <span style="color:#8a9bb5">Lucro/Prejuizo: </span>
-                <span th:with="lucro=${valorTotal - simulacao.saldoInicial}"
-                      th:classappend="${lucro >= 0} ? 'price-up' : 'price-down'"
-                      th:text="${lucro >= 0} ? 'R$ +' + #numbers.formatDecimal(lucro, 0, 'COMMA', 2, 'POINT') : 'R$ ' + #numbers.formatDecimal(lucro, 0, 'COMMA', 2, 'POINT')">
-                </span>
+                <th:block th:with="lucro=${valorTotal - simulacao.saldoInicial}">
+                    <span th:if="${lucro >= 0}" class="price-up" th:text="|R$ +${#numbers.formatDecimal(lucro, 1, 'COMMA', 2, 'POINT')}|"></span>
+                    <span th:unless="${lucro >= 0}" class="price-down" th:text="|R$ ${#numbers.formatDecimal(lucro, 1, 'COMMA', 2, 'POINT')}|"></span>
+                </th:block>
             </div>
         </div>
     </div>
@@ -62,7 +66,7 @@
         <div th:each="t : ${simulacao.transacoes}" class="transacao">
             <div>
                 <span class="tipo" th:classappend="${t.tipo == 'COMPRA'} ? 'compra' : 'venda'" th:text="${t.tipo}">COMPRA</span>
-                <span style="color:#8a9bb5;margin-left:.5rem" th:text="${#numbers.formatDecimal(t.quantidadeBTC, 0, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</span>
+                <span style="color:#8a9bb5;margin-left:.5rem" th:text="${#numbers.formatDecimal(t.quantidadeBTC, 1, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</span>
             </div>
             <div style="text-align:right">
                 <div th:text="${'R$ ' + #numbers.formatDecimal(t.valorBRL, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>

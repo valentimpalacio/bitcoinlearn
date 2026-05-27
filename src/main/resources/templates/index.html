@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/layout :: head"></head>
+<head th:replace="~{fragments/layout :: head}"></head>
 <body>
-    <nav th:replace="fragments/nav :: nav"></nav>
+    <nav th:replace="~{fragments/nav :: nav}"></nav>
     <div class="container">
         <div class="card text-center">
             <h1>Aprenda sobre Bitcoin</h1>
             <p class="subtitle">A moeda que esta mudando o mundo das financas</p>
-            <div th:replace="fragments/preco :: preco"></div>
+            <div th:replace="~{fragments/preco :: preco}"></div>
         </div>
 
         <div class="grid-3">

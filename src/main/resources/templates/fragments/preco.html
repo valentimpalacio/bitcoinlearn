@@ -1,7 +1,12 @@
 <div th:fragment="preco" class="text-center" style="padding:.5rem 0"
-     th:with="fmtChange=${#numbers.formatDecimal(change24h, 0, 'COMMA', 2, 'POINT')}">
-    <span class="price-big" th:text="${'$' + #numbers.formatDecimal(priceUSD, 0, 'COMMA', 2, 'POINT')}">$0.00</span>
-    <span class="price-sub" style="display:block">R$ <span th:text="${#numbers.formatDecimal(priceBRL, 0, 'COMMA', 2, 'POINT')}">0.00</span></span>
-    <span class="change" th:classappend="${change24h >= 0} ? 'price-up' : 'price-down'" th:text="${change24h >= 0} ? '+' + fmtChange + '%' : fmtChange + '%'">0%</span>
+     th:with="fmtChange=${#numbers.formatDecimal(change24h, 1, 'COMMA', 2, 'POINT')}">
+    <span class="price-big" th:text="${'$' + #numbers.formatDecimal(priceUSD, 1, 'COMMA', 2, 'POINT')}">$0.00</span>
+    <span class="price-sub" style="display:block">R$ <span th:text="${#numbers.formatDecimal(priceBRL, 1, 'COMMA', 2, 'POINT')}">0.00</span></span>
+    <th:block th:if="${change24h >= 0}">
+        <span class="change price-up" th:text="|+${fmtChange}%|">+0%</span>
+    </th:block>
+    <th:block th:unless="${change24h >= 0}">
+        <span class="change price-down" th:text="|${fmtChange}%|">0%</span>
+    </th:block>
     <span class="price-sub" style="display:block;font-size:.75rem;margin-top:.3rem">24h</span>
 </div>
