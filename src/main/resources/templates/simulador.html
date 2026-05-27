@@ -4,14 +4,14 @@
 <body>
     <nav th:replace="~{fragments/nav :: nav}"></nav>
     <h1>Simulador de Investimento</h1>
-    <p class="subtitle">Simule compra e venda de Bitcoin com dinheiro ficticio e precos reais</p>
+    <p class="subtitle">Simule compra e venda de Bitcoin com dinheiro fictício e preços reais</p>
 
     <div class="card">
         <div th:replace="~{fragments/preco :: preco}"></div>
     </div>
 
     <div class="card">
-        <h2>Criar nova simulacao</h2>
+        <h2>Criar nova simulação</h2>
         <form method="post" action="/simulador/criar" class="inline-flex" style="display:flex;gap:1rem;align-items:end;flex-wrap:wrap">
             <div style="flex:1;min-width:150px">
                 <label style="color:#8a9bb5;font-size:.85rem">Nome</label>
@@ -27,20 +27,20 @@
 
     <div th:if="${#lists.isEmpty(simulacoes)}">
         <div class="card text-center" style="padding:3rem">
-            <p style="color:#8a9bb5;font-size:1.1rem">Nenhuma simulacao criada ainda.</p>
+            <p style="color:#8a9bb5;font-size:1.1rem">Nenhuma simulação criada ainda.</p>
         </div>
     </div>
 
     <div th:each="s : ${simulacoes}" class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
             <div>
-                <h2 style="margin:0" th:text="${s.nome}">Simulacao</h2>
+                <h2 style="margin:0" th:text="${s.nome}">Simulação</h2>
                 <small style="color:#8a9bb5" th:text="${'Criada em ' + #temporals.format(s.criadaEm, 'dd/MM/yyyy HH:mm')}">data</small>
             </div>
             <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
                 <div class="text-center">
                     <div style="color:#4ade80;font-weight:700" th:text="${'R$ ' + #numbers.formatDecimal(s.saldoBRL, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
-                    <small style="color:#8a9bb5">Disponivel</small>
+                    <small style="color:#8a9bb5">Disponível</small>
                 </div>
                 <div class="text-center">
                     <div style="color:#f7931a;font-weight:700" th:text="${#numbers.formatDecimal(s.saldoBTC, 1, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</div>

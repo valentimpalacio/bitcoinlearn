@@ -5,7 +5,7 @@
     <nav th:replace="~{fragments/nav :: nav}"></nav>
     <a href="/simulador" style="color:#8a9bb5;text-decoration:none;display:inline-block;margin-bottom:1rem">&larr; Voltar</a>
 
-    <h1 th:text="${simulacao.nome}">Simulacao</h1>
+    <h1 th:text="${simulacao.nome}">Simulação</h1>
 
     <div th:if="${erro}" class="card" style="border-color:#f87171;background:#1a1a2e;text-align:center;padding:.75rem">
         <span style="color:#f87171" th:text="${erro}">Erro</span>
@@ -19,16 +19,16 @@
         <div class="card">
             <h2>Saldo</h2>
             <div style="font-size:2rem;font-weight:700;color:#4ade80" th:text="${'R$ ' + #numbers.formatDecimal(simulacao.saldoBRL, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
-            <div style="color:#8a9bb5;font-size:.9rem">Disponivel em reais</div>
+            <div style="color:#8a9bb5;font-size:.9rem">Disponível em reais</div>
             <div style="font-size:2rem;font-weight:700;color:#f7931a;margin-top:1rem" th:text="${#numbers.formatDecimal(simulacao.saldoBTC, 1, 'COMMA', 6, 'POINT') + ' BTC'}">0 BTC</div>
             <div style="color:#8a9bb5;font-size:.9rem">Em Bitcoin</div>
         </div>
         <div class="card">
             <h2>Valor Total</h2>
             <div style="font-size:2.5rem;font-weight:700;color:#f7931a" th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 0, 'COMMA', 2, 'POINT')}">R$ 0</div>
-            <div style="color:#8a9bb5;font-size:.9rem">Saldo + Bitcoin a preco atual</div>
+            <div style="color:#8a9bb5;font-size:.9rem">Saldo + Bitcoin a preço atual</div>
             <div style="margin-top:.5rem;font-size:.9rem">
-                <span style="color:#8a9bb5">Lucro/Prejuizo: </span>
+                <span style="color:#8a9bb5">Lucro/Prejuízo: </span>
                 <th:block th:with="lucro=${valorTotal - simulacao.saldoInicial}">
                     <span th:if="${lucro >= 0}" class="price-up" th:text="|R$ +${#numbers.formatDecimal(lucro, 1, 'COMMA', 2, 'POINT')}|"></span>
                     <span th:unless="${lucro >= 0}" class="price-down" th:text="|R$ ${#numbers.formatDecimal(lucro, 1, 'COMMA', 2, 'POINT')}|"></span>
@@ -55,8 +55,8 @@
 
     <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center">
-            <h2>Historico de Transacoes</h2>
-            <button onclick="mostrarModal()" class="btn btn-sm btn-danger">Deletar Simulacao</button>
+            <h2>Histórico de Transações</h2>
+            <button onclick="mostrarModal()" class="btn btn-sm btn-danger">Deletar Simulação</button>
         </div>
 
         <div id="modal-delete" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center" onclick="if(event.target===this)fecharModal()">
@@ -78,7 +78,7 @@
             function fecharModal(){document.getElementById('modal-delete').style.display='none'}
         </script>
         <div th:if="${#lists.isEmpty(simulacao.transacoes)}" style="color:#8a9bb5;text-align:center;padding:1rem">
-            Nenhuma transacao realizada.
+            Nenhuma transação realizada.
         </div>
         <div th:each="t : ${simulacao.transacoes}" class="transacao">
             <div>

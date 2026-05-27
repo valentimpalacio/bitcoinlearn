@@ -30,7 +30,7 @@ public class SimulacaoService {
         Simulacao s = repo.findById(id).orElseThrow();
         double precoBTC = priceService.getCurrentPriceBRL();
         if (precoBTC <= 0) {
-            log.warn("Compra rejeitada: preco BTC invalido ({}) para simulacao {}", precoBTC, id);
+            log.warn("Compra rejeitada: preco BTC inválido ({}) para simulacao {}", precoBTC, id);
             return s;
         }
         if (s.getSaldoBRL() < valorBRL) {
@@ -49,7 +49,7 @@ public class SimulacaoService {
         Simulacao s = repo.findById(id).orElseThrow();
         double precoBTC = priceService.getCurrentPriceBRL();
         if (precoBTC <= 0) {
-            log.warn("Venda rejeitada: preco BTC invalido ({}) para simulacao {}", precoBTC, id);
+            log.warn("Venda rejeitada: preco BTC inválido ({}) para simulacao {}", precoBTC, id);
             return s;
         }
         if (s.getSaldoBTC() < quantidadeBTC) {

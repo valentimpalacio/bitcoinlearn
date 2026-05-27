@@ -4,10 +4,10 @@
 <body>
     <nav th:replace="~{fragments/nav :: nav}"></nav>
     <h1>Calculadora Bitcoin</h1>
-    <p class="subtitle">Converta valores entre Real, Dolar e Bitcoin</p>
+    <p class="subtitle">Converta valores entre Real, Dólar e Bitcoin</p>
 
     <div class="card text-center" style="margin-bottom:2rem">
-        <div style="color:#8a9bb5;font-size:.9rem">Precos de referencia</div>
+        <div style="color:#8a9bb5;font-size:.9rem">Preços de referência</div>
         <div style="font-size:1.3rem;font-weight:600;color:#f7931a" th:text="${'1 BTC = $' + #numbers.formatDecimal(priceUSD, 0, 'COMMA', 2, 'POINT')}">1 BTC = $0</div>
         <div style="font-size:1.1rem;color:#4ade80" th:text="${'1 BTC = R$ ' + #numbers.formatDecimal(priceBRL, 0, 'COMMA', 2, 'POINT')}">1 BTC = R$ 0</div>
     </div>

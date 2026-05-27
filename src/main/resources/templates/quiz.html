@@ -11,9 +11,9 @@
             <form method="get" class="filters inline-flex" style="display:flex;gap:.5rem;flex-wrap:wrap">
                 <select name="difficulty" style="width:auto">
                     <option value="">Todas as dificuldades</option>
-                    <option value="facil" th:selected="${selectedDifficulty == 'facil'}">Facil</option>
-                    <option value="medio" th:selected="${selectedDifficulty == 'medio'}">Medio</option>
-                    <option value="dificil" th:selected="${selectedDifficulty == 'dificil'}">Dificil</option>
+                    <option value="fácil" th:selected="${selectedDifficulty == 'fácil'}">Fácil</option>
+                    <option value="médio" th:selected="${selectedDifficulty == 'médio'}">Médio</option>
+                    <option value="difícil" th:selected="${selectedDifficulty == 'difícil'}">Difícil</option>
                 </select>
                 <select name="category" style="width:auto">
                     <option value="">Todas as categorias</option>
@@ -25,13 +25,13 @@
 
         <div th:if="${!#lists.isEmpty(questions)}" id="quiz-container">
             <div class="card">
-                <div class="question-counter" id="q-counter">Questao 1 de <span th:text="${#lists.size(questions)}">10</span></div>
+                <div class="question-counter" id="q-counter">Questão 1 de <span th:text="${#lists.size(questions)}">10</span></div>
                 <div class="timer" id="timer">⏱ 30s</div>
             </div>
 
             <div th:each="q, iter : ${questions}" class="card question-card" th:attr="data-index=${iter.index}" th:classappend="${iter.index > 0} ? 'hide'">
                 <h3 style="margin-bottom:1rem;line-height:1.5" th:text="${q.question}">Pergunta</h3>
-                <span class="badge" th:classappend="${q.difficulty}" th:text="${q.difficulty}">facil</span>
+                <span class="badge" th:classappend="${q.difficulty}" th:text="${q.difficulty}">fácil</span>
                 <span class="badge" style="margin-left:.5rem" th:text="${q.category}">categoria</span>
                 <div style="margin-top:1rem">
                     <button class="option-btn" th:each="opt, oi : ${q.options}"
@@ -111,7 +111,7 @@
                     nextCard.classList.remove('hide');
                     const allCards = document.querySelectorAll('.question-card');
                     const idx = Array.from(allCards).indexOf(nextCard);
-                    document.getElementById('q-counter').textContent = 'Questao ' + (idx + 1) + ' de ' + allCards.length;
+                    document.getElementById('q-counter').textContent = 'Questão ' + (idx + 1) + ' de ' + allCards.length;
                     startTimer();
                 } else {
                     document.querySelectorAll('.question-card').forEach(c => c.classList.add('hide'));
@@ -125,7 +125,7 @@
             document.getElementById('final-score').textContent = correctCount;
             const pct = Math.round((correctCount / total) * 100);
             let msg = '';
-            if (pct >= 90) msg = 'Excelente! Voce e um expert em Bitcoin!';
+            if (pct >= 90) msg = 'Excelente! Você é um expert em Bitcoin!';
             else if (pct >= 70) msg = 'Muito bom! Continue estudando!';
             else if (pct >= 50) msg = 'Bom, mas pode melhorar! Continue aprendendo!';
             else msg = 'Continue estudando os fundamentos do Bitcoin!';

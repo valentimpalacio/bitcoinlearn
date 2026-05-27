@@ -45,7 +45,7 @@ public class BitcoinPriceService {
                 if (btc.containsKey("usd")) currentPriceUSD = ((Number) btc.get("usd")).doubleValue();
                 if (btc.containsKey("brl")) currentPriceBRL = ((Number) btc.get("brl")).doubleValue();
                 if (btc.containsKey("usd_24h_change")) change24h = ((Number) btc.get("usd_24h_change")).doubleValue();
-                log.info("Precos atualizados - USD: {}, BRL: {}", currentPriceUSD, currentPriceBRL);
+                log.info("Preços atualizados - USD: {}, BRL: {}", currentPriceUSD, currentPriceBRL);
             }
         } catch (Exception e) {
             log.error("Erro ao buscar preco: {} - {}", e.getClass().getSimpleName(), e.getMessage());

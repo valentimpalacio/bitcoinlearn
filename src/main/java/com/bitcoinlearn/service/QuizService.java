@@ -31,6 +31,6 @@ public class QuizService {
     }
 
     public List<String> getCategories() {
-        return List.of("Fundamentos", "Blockchain", "Mercado", "Seguranca", "Historia", "Mineracao");
+        return List.of("Fundamentos", "Blockchain", "Mercado", "Segurança", "História", "Mineração");
     }
 }
