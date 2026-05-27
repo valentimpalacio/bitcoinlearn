@@ -56,10 +56,27 @@
     <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center">
             <h2>Historico de Transacoes</h2>
-            <form th:action="@{'/simulador/' + ${simulacao.id} + '/deletar'}" method="post" onsubmit="return confirm('Tem certeza?')">
-                <button type="submit" class="btn btn-sm btn-danger">Deletar Simulacao</button>
-            </form>
+            <button onclick="mostrarModal()" class="btn btn-sm btn-danger">Deletar Simulacao</button>
         </div>
+
+        <div id="modal-delete" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center" onclick="if(event.target===this)fecharModal()">
+            <div style="background:#16213e;padding:2rem;border-radius:12px;max-width:360px;width:90%;text-align:center;border:1px solid #f87171">
+
+                <h3 style="margin:0 0 .5rem;color:#fff">Excluir simulação?</h3>
+                <p style="color:#8a9bb5;margin:0 0 1.5rem;font-size:.9rem">Esta ação não pode ser desfeita.</p>
+                <div style="display:flex;gap:.75rem;justify-content:center">
+                    <button onclick="fecharModal()" class="btn" style="min-width:100px">Cancelar</button>
+                    <form th:action="@{'/simulador/' + ${simulacao.id} + '/deletar'}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger" style="min-width:100px;padding:.6rem 1.2rem">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function mostrarModal(){document.getElementById('modal-delete').style.display='flex'}
+            function fecharModal(){document.getElementById('modal-delete').style.display='none'}
+        </script>
         <div th:if="${#lists.isEmpty(simulacao.transacoes)}" style="color:#8a9bb5;text-align:center;padding:1rem">
             Nenhuma transacao realizada.
         </div>
