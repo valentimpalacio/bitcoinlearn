@@ -2,6 +2,8 @@
 
 Plataforma educacional para aprender sobre Bitcoin com ferramentas interativas. Construída com Spring Boot + MongoDB.
 
+🌐 **Deploy:** [bitcoinlearn.up.railway.app](https://bitcoinlearn.up.railway.app)
+
 ## Funcionalidades
 
 - **Preços em tempo real** — cotações BTC/USD e BTC/BRL via CoinGecko (atualização a cada 60s)
